@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Customers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>N socio</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>DIreccion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.n_socio %></td>
+        <td><%= customer.nombre %></td>
+        <td><%= customer.apellido %></td>
+        <% customer.addresses.each do |direccion| %>
+          <% if (direccion.address)%>
+             <td><%= direccion.address %></td>
+          <%end%>
+        <%end%>
+
+
+
+
+        <td><%= link_to 'Show', customer %></td>
+        <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
+        <td><%= link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Customer', new_customer_path %>
+<br/>
+
+<div style='width: 800px;'>
+  <div id="map" style='width: 800px; height: 400px;'></div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+  createMap(<%=raw @map_hash.to_json %>);
+
+</script> 
+

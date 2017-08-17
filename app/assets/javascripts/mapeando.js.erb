@@ -1,0 +1,152 @@
+
+  //var map = new google.maps.Map(document.getElementById('map'));
+  var area = [];
+  var markersCount = 0;
+  markers = [];
+  var poligonoArea;
+  var dibujado = false;
+  var handler = Gmaps.build('Google');
+
+
+
+ // map.addListener('click', function (event) {
+ //      console.log("in addListener...");
+ //  if (dibujado ==  false) {
+ //    area.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+
+ //    var newlatlng = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+
+ //    var newmarker = new google.maps.Marker({
+ //      position: newlatlng,
+ //      map: map
+ //    });
+
+ //    markers[markersCount] = newmarker;
+ //    markersCount += 1;
+ //  } else {
+ //    alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
+ //  }
+
+ //  }); // fin addListener
+
+
+function createMap(items){
+  // var handler = Gmaps.build('Google');
+  var latlng = {lat: -27.367193930439235, lng: -55.893094539642334};
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers(items);
+    handler.bounds.extendWith(markers);
+    handler.getMap().setCenter(latlng);// centra el mapa en lng lat
+    handler.getMap().setZoom(13);// zoom map x veces
+    //handler.fitMapToBounds();
+
+      google.maps.event.addListener(handler.getMap(), 'click', function( event ){
+       console.log("toc toc");
+
+            if (dibujado ==  false) {
+              area.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+
+               var newlatlng = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+               console.log(newlatlng);
+
+              // var newmarker = new google.maps.Marker({
+              // position: newlatlng,
+              // map: map
+              // });
+
+                  var newmarker  = handler.addMarkers(
+                [
+                  {
+                    "lng": event.latLng.lng(),
+                    "lat": event.latLng.lat(),
+                  }
+                ]
+              ,{ draggable: true}
+              );
+
+              //markers = handler.addMarkers(items ,{ draggable: true});
+
+              markers[markersCount] = newmarker;
+              markersCount += 1;
+            } else {
+              alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
+            }
+      });
+
+
+
+  });
+}
+document.addEventListener("turbolinks:load", function() {
+
+    $("#go").click(function(){
+			   // alert("The button was clicked.");
+			   $.ajax({
+				   url: "/users/test",
+				   type: "POST",
+				   data: {"poli": area},
+				   dataType: "json",
+				   success: function(data) {
+
+				      console.log(data);
+				     }
+				   });
+   });
+    //end function go
+  // $("#borrar").click(function(){
+
+  //   if (markersCount > 0) {
+  //     for (var i = 0; i < markersCount; i++) {
+  //       markers[i].setMap(null);
+  //     }
+  //   }
+
+  //   if (dibujado) {
+
+  //     poligonoArea.setMap(null);
+  //     dibujado = false;
+  //     area = [];
+  //     markers = [];
+  //     markersCount = 0;
+      
+  //   }
+
+  // });
+//end function borrar
+
+
+
+
+
+
+
+
+  $("#btnmarcar").click(function(){
+    
+    if (markersCount > 0 && dibujado == false) {
+      
+      poligonoArea = handler.addPolygons({
+      // poligonoArea = new google.maps.Polygon({
+        paths: area,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+
+      if (area.lentgh < 1 || (markersCount > 2 && dibujado == false)) {
+        //poligonoArea.setMap(map);
+        handler.bounds.extendWith(poligonoArea);
+        dibujado = true;
+      }
+    }
+
+  });
+
+});
+
+
+
+
+

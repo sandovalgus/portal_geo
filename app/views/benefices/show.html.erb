@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Estado:</strong>
+  <%= @benefice.estado %>
+</p>
+
+<p>
+  <strong>Fecha vencimiento:</strong>
+  <%= @benefice.fecha_vencimiento %>
+</p>
+
+<%= link_to 'Edit', edit_benefice_path(@benefice) %> |
+<%= link_to 'Back', benefices_path %>
