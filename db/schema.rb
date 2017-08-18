@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817231014) do
+ActiveRecord::Schema.define(version: 20170817234242) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address"
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 20170817231014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "zone_id"
+    t.string "estado"
+    t.date "fecha_vencimiento"
     t.index ["zone_id"], name: "index_customers_on_zone_id"
   end
 
