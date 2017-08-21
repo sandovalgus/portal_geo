@@ -6,6 +6,7 @@
   var poligonoArea;
   var dibujado = false;
   var handler = Gmaps.build('Google');
+  var zoom = 13;// zoom del mapa 
 
 
 
@@ -30,14 +31,22 @@
  //  }); // fin addListener
 
 
-function createMap(items){
+function createMap(items, vista){
   // var handler = Gmaps.build('Google');
-  var latlng = {lat: -27.367193930439235, lng: -55.893094539642334};
+  if (vista ==2){
+   
+    var latlng = {lat: items[0].lat, lng: items[0].lng};
+    zoom=15;
+
+  }else{
+    var latlng = {lat: -27.367193930439235, lng: -55.893094539642334};
+  }
+  
   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     markers = handler.addMarkers(items);
     handler.bounds.extendWith(markers);
     handler.getMap().setCenter(latlng);// centra el mapa en lng lat
-    handler.getMap().setZoom(13);// zoom map x veces
+    handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
 
       google.maps.event.addListener(handler.getMap(), 'click', function( event ){

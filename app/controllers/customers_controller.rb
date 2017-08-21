@@ -18,6 +18,21 @@ class CustomersController < ApplicationController
   # GET /customers/1
   # GET /customers/1.json
   def show
+    # @customers= Customer.includes(:addresses).all
+   @customers= Customer.includes(:addresses).find(params[:id])
+
+      # @addres = @customers
+      @addres = Address.where(customer_id: @customers.id).first
+     puts "*************************************"
+     puts @addres.inspect
+
+
+    @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
+      marker.lat address.latitude
+      marker.lng address.longitude
+      marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+    end
+
   end
 
   # GET /customers/new

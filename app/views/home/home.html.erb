@@ -1,0 +1,57 @@
+
+<div class="container">
+
+<div class="banner">
+	 <h2>Clientes</h2>
+</div>
+ 
+                                                                                      
+  <div class="table-responsive banner">          
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Num. de Socio</th>
+        <th>Apellido - Nombre</th>
+        <th>Dirección</th>
+        <th>Estado</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.n_socio %></td>
+        <td><%= customer.apellido %>, <%= customer.nombre %></td>
+        <% customer.addresses.each do |direccion| %>
+          <% if (direccion.address)%>
+             <td><%= direccion.address %></td>
+          <%end%>
+        <%end%>
+        <td>status</td>
+
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="map-system">
+			<div id="map" class="map"></div>
+		</div> 
+
+	</div>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+<script type="text/javascript">
+  createMap(<%=raw @map_hash.to_json %>, 1);
+</script>
