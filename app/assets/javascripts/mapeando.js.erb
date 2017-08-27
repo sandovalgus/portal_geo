@@ -7,45 +7,31 @@
   var dibujado = false;
   var handler = Gmaps.build('Google');
   var zoom = 13;// zoom del mapa 
+  var areas = [];
 
+//position central del mapa
+function positionCenter(pos, items){
+  var latlng;
+  if (pos ==2){
+   
+    latlng ={lat: items[0].lat, lng: items[0].lng};
+    zoom=15;
 
-
- // map.addListener('click', function (event) {
- //      console.log("in addListener...");
- //  if (dibujado ==  false) {
- //    area.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-
- //    var newlatlng = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-
- //    var newmarker = new google.maps.Marker({
- //      position: newlatlng,
- //      map: map
- //    });
-
- //    markers[markersCount] = newmarker;
- //    markersCount += 1;
- //  } else {
- //    alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
- //  }
-
- //  }); // fin addListener
+  }else{
+     latlng = {lat: -27.367193930439235, lng: -55.893094539642334};
+  }
+  return latlng;
+}
 
 
 function createMap(items, vista){
   // var handler = Gmaps.build('Google');
-  if (vista ==2){
-   
-    var latlng = {lat: items[0].lat, lng: items[0].lng};
-    zoom=15;
 
-  }else{
-    var latlng = {lat: -27.367193930439235, lng: -55.893094539642334};
-  }
   
   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     markers = handler.addMarkers(items);
     handler.bounds.extendWith(markers);
-    handler.getMap().setCenter(latlng);// centra el mapa en lng lat
+    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
     handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
 
@@ -57,12 +43,6 @@ function createMap(items, vista){
 
                var newlatlng = { lat: event.latLng.lat(), lng: event.latLng.lng() };
                console.log(newlatlng);
-
-              // var newmarker = new google.maps.Marker({
-              // position: newlatlng,
-              // map: map
-              // });
-
                   var newmarker  = handler.addMarkers(
                 [
                   {
@@ -73,27 +53,32 @@ function createMap(items, vista){
               ,{ draggable: true}
               );
 
-              //markers = handler.addMarkers(items ,{ draggable: true});
-
+              //markers = handler.addMarkers(items ,{ draggable: true})
               markers[markersCount] = newmarker;
               markersCount += 1;
             } else {
               alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
             }
       });
-
-
-
   });
 }
+
+
+
 document.addEventListener("turbolinks:load", function() {
 
     $("#go").click(function(){
 			   // alert("The button was clicked.");
-			   $.ajax({
-				   url: "/users/test",
+         var nombre_zona = document.getElementById('zone_nombre_zona').value;
+			   var color = document.getElementById('zone_color').value;
+         
+         $.ajax({
+				   url: "/zones/create",
 				   type: "POST",
-				   data: {"poli": area},
+				   data: {
+            "nombre_zona":nombre_zona,
+            "color":color,
+            "area": area},
 				   dataType: "json",
 				   success: function(data) {
 
@@ -101,33 +86,6 @@ document.addEventListener("turbolinks:load", function() {
 				     }
 				   });
    });
-    //end function go
-  // $("#borrar").click(function(){
-
-  //   if (markersCount > 0) {
-  //     for (var i = 0; i < markersCount; i++) {
-  //       markers[i].setMap(null);
-  //     }
-  //   }
-
-  //   if (dibujado) {
-
-  //     poligonoArea.setMap(null);
-  //     dibujado = false;
-  //     area = [];
-  //     markers = [];
-  //     markersCount = 0;
-      
-  //   }
-
-  // });
-//end function borrar
-
-
-
-
-
-
 
 
   $("#btnmarcar").click(function(){
@@ -155,6 +113,96 @@ document.addEventListener("turbolinks:load", function() {
 
 });
 
+
+
+// mapeando zonas
+
+function createMapZone(items, vista){         
+  
+  handler.buildMap({ provider: {}, internal: {id: 'map_zone'}}, function(){
+    markers = handler.addMarkers(items);
+    handler.bounds.extendWith(markers);
+    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+    handler.getMap().setZoom(zoom);// zoom map x veces
+    //handler.fitMapToBounds();
+      google.maps.event.addListener(handler.getMap(), 'click', function( event ){
+       console.log("toc toc");
+
+            if (dibujado ==  false) {
+              area.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+
+               var newlatlng = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+               console.log(newlatlng);
+
+                  var newmarker  = handler.addMarkers(
+                [
+                  {
+                    "lng": event.latLng.lng(),
+                    "lat": event.latLng.lat(),
+                  }
+                ]
+              ,{ draggable: true}
+              );
+              markers[markersCount] = newmarker;
+              markersCount += 1;
+            } else {
+              alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
+            }
+      });
+
+  });
+}
+
+
+//mostrar tdas las zonas ************
+
+function viewZonesAll(items, vista){
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    // markers = handler.addMarkers(items);
+    // handler.bounds.extendWith(markers);
+    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+    handler.getMap().setZoom(zoom);// zoom map x veces
+
+var areashow = [];
+ var mizona = items[0].zone;
+ 
+ for (var j = 0; j < items.length; j++){
+    if (items[j].zone == mizona){
+      areashow.push(items[j]);
+    }else if (items[j].zone != undefined ){
+      mizona = items[j].zone;
+     
+      //***** mostrar zona
+      poligonoArea = handler.addPolygons({
+        paths: areashow,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+    handler.bounds.extendWith(poligonoArea);
+    areas.push(poligonoArea);
+    var areashow=[];
+     areashow.push(items[j]);
+
+    }
+ }
+if(j==items.length){
+        poligonoArea = handler.addPolygons({
+        paths: areashow,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+    handler.bounds.extendWith(poligonoArea);
+
+}
+
+  });
+}
 
 
 

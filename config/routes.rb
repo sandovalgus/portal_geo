@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   get 'home/home'
 
   resources :benefices
-  resources :zones
+  resources :zones do
+  	  	collection do 
+  		post "create"	
+  	end
+  end
   resources :addresses
   resources :customers
   root to: 'home#home'

@@ -1,10 +1,23 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /zones
   # GET /zones.json
   def index
-    @zones = Zone.all
+    @zone= Zone.all
+
+    @polyjson = []
+    schoolpoints = []
+    @zone.each do |zone|
+      CoordinateZone.where(:zone_id => zone.id).each do |point|
+         schoolpoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
+      end
+    end
+    puts "********schoolpoints***********"
+    puts schoolpoints.inspect
+
+    @polyjson = schoolpoints
+    @polyjson = @polyjson.to_json
   end
 
   # GET /zones/1
@@ -24,10 +37,31 @@ class ZonesController < ApplicationController
   # POST /zones
   # POST /zones.json
   def create
-    @zone = Zone.new(zone_params)
+
+     has = params["area"].to_json
+    data_has =  JSON.parse(has)
+     puts data_has.inspect
+
+print params["nombre_zona"]
+
+    @zone = Zone.new();
+    @zone.nombre_zona = params["nombre_zona"]
+    @zone.color = params["color"]
 
     respond_to do |format|
       if @zone.save
+       
+        data_has.each do |geo|
+          @coordenada = CoordinateZone.new()
+          geo.each do |data|
+            @coordenada.zone_id = @zone.id
+            @coordenada.latitud =  data["lat"].to_f
+            @coordenada.longitud = data["lng"].to_f 
+          end
+          @coordenada.save
+        end
+
+
         format.html { redirect_to @zone, notice: 'Zone was successfully created.' }
         format.json { render :show, status: :created, location: @zone }
       else

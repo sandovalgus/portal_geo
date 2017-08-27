@@ -1,3 +1,5 @@
+  <div class="banner">
+
 <%= form_with(model: zone, local: true) do |form| %>
   <% if zone.errors.any? %>
     <div id="error_explanation">
@@ -24,4 +26,27 @@
   <div class="actions">
     <%= form.submit %>
   </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="map-system">
+                <div id="map_zone" class="map"></div>
+            </div> 
+
+        </div>
+    </div>
+
+
 <% end %>
+
+</div>
+
+
+<button id="go" class="btn btn-default">mandar datos poligono</button>
+  <button id="btnmarcar" class="btn btn-default">Marcar zona</button>
+
+<script type="text/javascript">
+  createMapZone(<%=raw @map_hash.to_json %>, 1);
+</script>
