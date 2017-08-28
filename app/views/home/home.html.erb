@@ -52,6 +52,9 @@
 
 
 <script type="text/javascript">
-  createMap(<%=raw @map_hash.to_json %>, 1);
-  viewZonesAll(<%=raw @polyjson %>, 1);
+  // viewZonesAll(<%=raw @polyjson %>, 1);
+  // createMap(<%=raw @map_hash.to_json %>, 1);
+
+mapsMarkerZones(<%=raw @map_hash.to_json  %>,<%=raw @polyjson %>, 1);
+  
 </script>

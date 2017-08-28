@@ -205,5 +205,62 @@ if(j==items.length){
 }
 
 
+//***************************************************************
+//zone and markers
+
+function mapsMarkerZones(items,has_zone, vista){
+  // var handler = Gmaps.build('Google');
+
+  
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers(items,{ fillColor: 'blue' });
+    handler.bounds.extendWith(markers);
+    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+    handler.getMap().setZoom(zoom);// zoom map x veces
+    //handler.fitMapToBounds();
+
+  var areashow = [];
+  var mizona = has_zone[0].zone;
+
+   for (var j = 0; j < has_zone.length; j++){
+    if (has_zone[j].zone == mizona){
+      areashow.push(has_zone[j]);
+    }else if (has_zone[j].zone != undefined ){
+      mizona = has_zone[j].zone;
+     
+      //***** mostrar zona
+      poligonoArea = handler.addPolygons({
+        paths: areashow,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+    handler.bounds.extendWith(poligonoArea);
+    areas.push(poligonoArea);
+    var areashow=[];
+     areashow.push(has_zone[j]);
+
+    }
+ }
+
+if(j==has_zone.length){
+        poligonoArea = handler.addPolygons({
+        paths: areashow,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+    handler.bounds.extendWith(poligonoArea);
+
+}
+
+  });
+}
+
+
 
 
