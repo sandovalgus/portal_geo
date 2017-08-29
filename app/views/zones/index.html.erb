@@ -10,17 +10,22 @@
 
 
   <div class="table-responsive banner">          
-      <table class="table table-striped">
+      <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Nombre zona</th>
           <th>Color</th>
-          <th colspan="3"></th>
         </tr>
       </thead>
-
       <tbody>
-
+       <% @zones.each do | zone | %>
+        <tr>
+          <td><%= zone.id %></td>
+          <td><%= zone.nombre_zona %></td>
+          <td><%= zone.color %></td>
+        </tr>
+       <% end %>
       </tbody>
     </table>
   </div>
