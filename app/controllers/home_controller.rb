@@ -7,7 +7,7 @@ before_action :authenticate_user!
     @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
       marker.lat address.latitude
       marker.lng address.longitude
-      marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+      marker.infowindow [address.customer_id, address.address, address.latitude,address.latitude].join('/')
     end
 
 
@@ -20,8 +20,6 @@ before_action :authenticate_user!
          schoolpoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
       end
     end
-    puts "********schoolpoints***********"
-    puts schoolpoints.inspect
 
     @polyjson = schoolpoints
     @polyjson = @polyjson.to_json
