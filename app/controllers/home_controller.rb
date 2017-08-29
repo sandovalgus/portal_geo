@@ -9,8 +9,10 @@ before_action :authenticate_user!
       marker.lat address.latitude
       marker.lng address.longitude
 
+
       string = string + "Geo: " + address.latitude.to_s + ", " + address.longitude.to_s
       marker.infowindow [address.address, string].join('<br />')
+
 
     end
 
@@ -24,8 +26,6 @@ before_action :authenticate_user!
          schoolpoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
       end
     end
-    puts "********schoolpoints***********"
-    puts schoolpoints.inspect
 
     @polyjson = schoolpoints
     @polyjson = @polyjson.to_json

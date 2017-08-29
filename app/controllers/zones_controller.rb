@@ -90,7 +90,7 @@ print params["nombre_zona"]
   def destroy
     @zone.destroy
     respond_to do |format|
-      format.html { redirect_to zones_url, notice: 'Zone was successfully destroyed.' }
+      format.html { redirect_to action: "index", notice: 'Zone was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

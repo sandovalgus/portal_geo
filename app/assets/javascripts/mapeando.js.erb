@@ -117,7 +117,7 @@ document.addEventListener("turbolinks:load", function() {
 
 // mapeando zonas
 
-function createMapZone(items, vista){         
+function createMapZone(items, vista){           
   
   handler.buildMap({ provider: {}, internal: {id: 'map_zone'}}, function(){
     markers = handler.addMarkers(items);
@@ -200,59 +200,41 @@ if(j==items.length){
     handler.bounds.extendWith(poligonoArea);
 
 }
-
+  
   });
 }
 
 
 //***************************************************************
 //zone and markers
+        function mapsMarkerZones(items,has_zone, vista){
+        // var handler = Gmaps.build('Google');
 
-function mapsMarkerZones(items,has_zone, vista){
-  // var handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {gestureHandling: 'greedy'}, internal: {id: 'map'}}, function(){
+        markers = handler.addMarkers(items);
+        handler.bounds.extendWith(markers);
+        handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+        handler.getMap().setZoom(zoom);// zoom map x veces
+        //handler.fitMapToBounds();
 
-  
-  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-    markers = handler.addMarkers(items);
-    handler.bounds.extendWith(markers);
-    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
-    handler.getMap().setZoom(zoom);// zoom map x veces
-    //handler.fitMapToBounds();
+// for (var j = 0; j < items.length; j++){
+//   var info = items[j].infowindow;
+//   info = info.split("/", 1);
+//   console.log( parseInt(info));
+// }
 
-// console.log("ver los markers");
-//    for (var j = 0; j < items.length; j++){
-//     console.log(items[j].lat +"-"+ items[j].lng)
-//    }
+        var areashow = [];
+        var mizona = has_zone[0].zone;
+        var zonaPoly = [];
 
 
+        for (var j = 0; j < has_zone.length; j++){
+        if (has_zone[j].zone == mizona){
+        areashow.push(has_zone[j]);
+        }else if (has_zone[j].zone != undefined ){
+        mizona = has_zone[j].zone;
 
-  var areashow = [];
-  var mizona = has_zone[0].zone;
-
-   for (var j = 0; j < has_zone.length; j++){
-    if (has_zone[j].zone == mizona){
-      areashow.push(has_zone[j]);
-    }else if (has_zone[j].zone != undefined ){
-      mizona = has_zone[j].zone;
-     
-      //***** mostrar zona
-      poligonoArea = handler.addPolygons({
-        paths: areashow,
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35
-      });
-    handler.bounds.extendWith(poligonoArea);
-    areas.push(poligonoArea);
-    var areashow=[];
-     areashow.push(has_zone[j]);
-
-    }
- }
-
-if(j==has_zone.length){
+        //***** mostrar zona
         poligonoArea = handler.addPolygons({
         paths: areashow,
         strokeColor: '#FF0000',
@@ -260,33 +242,56 @@ if(j==has_zone.length){
         strokeWeight: 2,
         fillColor: '#FF0000',
         fillOpacity: 0.35
-      });
-    handler.bounds.extendWith(poligonoArea);
-    areas.push(poligonoArea);
+        });
+        handler.bounds.extendWith(poligonoArea);
+        areas.push(poligonoArea);
 
-}
-// console.log("poligonos");
-// console.log(areas);
-//    for (var j = 0; j < items.length; j++){
-//     console.log(items[j].lat +"-"+ items[j].lng)
-//    }
-var coordinate = new google.maps.LatLng(items[0].lat, items[0].lng);//replace with your lat and lng values
-// console.log(coordinate);
+        var areashow=[];
+        areashow.push(has_zone[j]);
 
-var isWithinPolygon = google.maps.geometry.poly.containsLocation(coordinate, poligonoArea)  ?
-              'red' :
-              'green';
+        }
+        }
+
+        if(j==has_zone.length){
+        poligonoArea = handler.addPolygons({
+        paths: areashow,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+        });
+        handler.bounds.extendWith(poligonoArea);
+        areas.push(poligonoArea);
+
+        }
+
+
+          var zonaSearch = new google.maps.Polygon({
+            paths: areashow
+          });
+
+    for (var j = 0; j < items.length; j++){
+        var coordinate = new google.maps.LatLng(items[j].lat, items[j].lng);//replace with your lat and lng values
+        // console.log(coordinate);
+
+        var isWithinPolygon = google.maps.geometry.poly.containsLocation(coordinate, zonaSearch)  ?
+        'ADENTRO' :
+        'AFUERA';
+          var info = items[j].infowindow;
+          info = info.split("/", 1);
+          console.log( "El Cliente Numero "+ parseInt(info) + " se encuentra " + isWithinPolygon + " de la zona." );
+
+  
+    }
 
 
 
-// var coordinate = new google.maps.LatLng(0.457301,-0.597382);//replace with your lat and lng values
-// var isWithinPolygon = google.maps.geometry.poly.containsLocation(coordinate, yourPolygon);
+        //si el marker cae dentro del poligono ---> color rojo
 
-console.log("VALOR DE isWithinPolygon");
-console.log(isWithinPolygon);
 
-  });
-}
+        });
+        }
 
 
 
