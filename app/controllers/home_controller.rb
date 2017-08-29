@@ -7,7 +7,6 @@ before_action :authenticate_user!
     @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
       marker.lat address.latitude
       marker.lng address.longitude
-      marker.icon.color 'blue'
       marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
     end
 
