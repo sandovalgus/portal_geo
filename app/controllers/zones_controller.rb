@@ -92,6 +92,7 @@ print params["nombre_zona"]
     respond_to do |format|
       format.html { redirect_to action: "index", notice: 'Zone was successfully destroyed.' }
       format.json { head :no_content }
+      #testing
     end
   end
 
