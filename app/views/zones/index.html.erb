@@ -6,20 +6,18 @@
    <h2>Zonas</h2>
 </div>
 
-
-
-
   <div class="table-responsive banner">          
-      <table class="table table-striped">
+      <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Nombre zona</th>
           <th>Color</th>
-          <th colspan="3"></th>
+          <th></th>
         </tr>
       </thead>
-
       <tbody>
+<<<<<<< HEAD
  <% @zone.each do |zone| %>
       <tr>
         <td><%= zone.nombre_zona %></td>
@@ -29,6 +27,22 @@
             
      </tr>
     <%end%>
+=======
+       <% @zones.each do | zone | %>
+        <tr>
+          <td><%= zone.id %></td>
+          <td><%= zone.nombre_zona %></td>
+          <td><%= zone.color %></td>
+          <td > 
+            <div class="pull-right">
+              <%= link_to '<i class="fa fa-eye" ></i>'.html_safe, zone_path(zone), class: "btn btn-default btn-view"  %>
+              <%= link_to '<i class="fa fa-pencil" ></i>'.html_safe, edit_zone_path(zone), class: "btn btn-default btn-edit"  %>
+              <%= link_to '<i class="fa fa-trash-o" ></i>'.html_safe,  zone, method: :delete, data: { confirm: 'Seguro que desea eliminar el cliente?' }, class: "btn btn-default btn-delete"  %>
+            </div>
+          </td>
+        </tr>
+       <% end %>
+>>>>>>> 51b577706c728f4ad6ac3aa4376f8b3248814e13
       </tbody>
     </table>
   </div>

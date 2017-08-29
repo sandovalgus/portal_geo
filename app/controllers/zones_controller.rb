@@ -4,11 +4,11 @@ class ZonesController < ApplicationController
   # GET /zones
   # GET /zones.json
   def index
-    @zone= Zone.all
+    @zones= Zone.all
 
     @polyjson = []
     schoolpoints = []
-    @zone.each do |zone|
+    @zones.each do |zone|
       CoordinateZone.where(:zone_id => zone.id).each do |point|
          schoolpoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
       end
@@ -38,9 +38,9 @@ class ZonesController < ApplicationController
   # POST /zones.json
   def create
 
-     has = params["area"].to_json
+    has = params["area"].to_json
     data_has =  JSON.parse(has)
-     puts data_has.inspect
+    puts data_has.inspect
 
 print params["nombre_zona"]
 
