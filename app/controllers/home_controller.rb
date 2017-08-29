@@ -4,11 +4,14 @@ before_action :authenticate_user!
   	@customers= Customer.includes(:addresses).all
     @addres = Address.all
 
+    string = ""
     @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
       marker.lat address.latitude
       marker.lng address.longitude
-      marker.icon.color 'blue'
-      marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+      #marker.icon.color 'blue'
+      marker.json({ :color => 'blue' })
+      string = string + "Geo: " + address.latitude.to_s + ", " + address.latitude.to_s
+      marker.infowindow [address.address, string].join('<br />')
     end
 
 
