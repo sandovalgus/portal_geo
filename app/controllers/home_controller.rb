@@ -8,8 +8,6 @@ before_action :authenticate_user!
     @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
       marker.lat address.latitude
       marker.lng address.longitude
-      #marker.icon.color 'blue'
-      marker.json({ :color => 'blue' })
       string = string + "Geo: " + address.latitude.to_s + ", " + address.latitude.to_s
       marker.infowindow [address.address, string].join('<br />')
     end
