@@ -213,11 +213,18 @@ function mapsMarkerZones(items,has_zone, vista){
 
   
   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-    markers = handler.addMarkers(items,{ fillColor: 'blue' });
+    markers = handler.addMarkers(items);
     handler.bounds.extendWith(markers);
     handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
     handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
+
+// console.log("ver los markers");
+//    for (var j = 0; j < items.length; j++){
+//     console.log(items[j].lat +"-"+ items[j].lng)
+//    }
+
+
 
   var areashow = [];
   var mizona = has_zone[0].zone;
@@ -255,8 +262,28 @@ if(j==has_zone.length){
         fillOpacity: 0.35
       });
     handler.bounds.extendWith(poligonoArea);
+    areas.push(poligonoArea);
 
 }
+// console.log("poligonos");
+// console.log(areas);
+//    for (var j = 0; j < items.length; j++){
+//     console.log(items[j].lat +"-"+ items[j].lng)
+//    }
+var coordinate = new google.maps.LatLng(items[0].lat, items[0].lng);//replace with your lat and lng values
+// console.log(coordinate);
+
+var isWithinPolygon = google.maps.geometry.poly.containsLocation(coordinate, poligonoArea)  ?
+              'red' :
+              'green';
+
+
+
+// var coordinate = new google.maps.LatLng(0.457301,-0.597382);//replace with your lat and lng values
+// var isWithinPolygon = google.maps.geometry.poly.containsLocation(coordinate, yourPolygon);
+
+console.log("VALOR DE isWithinPolygon");
+console.log(isWithinPolygon);
 
   });
 }
