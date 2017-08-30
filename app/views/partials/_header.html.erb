@@ -1,9 +1,6 @@
-<nav class="navbar navbar-inverse  navbar-fixed-top">
+<nav class="navbar navbar-default  navbar-fixed-top">
   <div class="navbar-header">
   <div class="logo_lapiz">
-    
-
-
 
   </div>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -24,20 +21,27 @@
 
 
        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clientes <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Clientes 
+            <b class="caret"></b>
+          </a>
           <ul class="dropdown-menu">
               <li><%= link_to 'LIstado Clientes', customers_path %></li>
               <li role="separator" class="divider"></li>
-                 <li><%= link_to "Nuevo Cliente", new_customer_path, :class => "dropdown-item" %> </li>
+              <li><%= link_to "Nuevo Cliente", new_customer_path, :class => "dropdown-item" %> </li>
           </ul>
         </li>
 
       <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Areas <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Areas 
+            <b class="caret"></b>
+          </a>
           <ul class="dropdown-menu">
-              <li>Ver areas</li>
-           <!--    <li role="separator" class="divider"></li>
-              <li><%= link_to "Nuevo Cliente", new_customer_path, :class => "dropdown-item" %> </li> -->
+            <li><%= link_to 'Ver Areas', zones_path %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to 'Nueva Area', zones_path %></li>
+           <!--   <li><%= link_to "Nuevo Cliente", new_customer_path, :class => "dropdown-item" %> </li> -->
           </ul>
         </li>
 
