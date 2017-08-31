@@ -27,7 +27,7 @@
             <div class="pull-right">
               <%= link_to '<i class="fa fa-eye" ></i>'.html_safe, zone_path(zone), class: "btn btn-default btn-view"  %>
               <%= link_to '<i class="fa fa-pencil" ></i>'.html_safe, edit_zone_path(zone), class: "btn btn-default btn-edit"  %>
-              <%= link_to '<i class="fa fa-trash-o" ></i>'.html_safe,  zone, method: :delete, data: { confirm: 'Seguro que desea eliminar el cliente?' }, class: "btn btn-default btn-delete"  %>
+              <%= link_to '<i class="fa fa-trash-o" ></i>'.html_safe,  zone, remote: true,  method: :delete, data: { confirm: 'Seguro que desea eliminar el cliente?' }, class: "btn btn-default btn-delete"  %>
             </div>
           </td>
         </tr>

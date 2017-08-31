@@ -1,6 +1,7 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: [:show, :edit, :update, :destroy]
-  
+  respond_to :html, :json, :js
+   
   # GET /zones
   # GET /zones.json
   def index
@@ -40,10 +41,6 @@ class ZonesController < ApplicationController
 
     has = params["area"].to_json
     data_has =  JSON.parse(has)
-    puts data_has.inspect
-
-print params["nombre_zona"]
-
     @zone = Zone.new();
     @zone.nombre_zona = params["nombre_zona"]
     @zone.color = params["color"]
@@ -61,13 +58,15 @@ print params["nombre_zona"]
           @coordenada.save
         end
 
-
         format.html { redirect_to @zone, notice: 'Zone was successfully created.' }
+        format.js 
         format.json { render :show, status: :created, location: @zone }
+         
       else
         format.html { render :new }
         format.json { render json: @zone.errors, status: :unprocessable_entity }
       end
+
     end
   end
 
@@ -92,6 +91,7 @@ print params["nombre_zona"]
     respond_to do |format|
       format.html { redirect_to action: "index", notice: 'Zone was successfully destroyed.' }
       format.json { head :no_content }
+      #testing
     end
   end
 

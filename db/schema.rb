@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821025756) do
+ActiveRecord::Schema.define(version: 20170829231837) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address"
@@ -20,15 +20,6 @@ ActiveRecord::Schema.define(version: 20170821025756) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_addresses_on_customer_id"
-  end
-
-  create_table "benefices", force: :cascade do |t|
-    t.string "estado"
-    t.date "fecha_vencimiento"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "customer_id"
-    t.index ["customer_id"], name: "index_benefices_on_customer_id"
   end
 
   create_table "coordinate_zones", force: :cascade do |t|
@@ -47,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170821025756) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "zone_id"
-    t.string "estado"
+    t.integer "estado"
     t.date "fecha_vencimiento"
     t.index ["zone_id"], name: "index_customers_on_zone_id"
   end
