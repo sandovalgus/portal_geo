@@ -73,7 +73,7 @@ document.addEventListener("turbolinks:load", function() {
 			   var color = document.getElementById('zone_color').value;
          
          $.ajax({
-				   url: "/zones/create",
+				   url: "/zones/",
 				   type: "POST",
 				   data: {
             "nombre_zona":nombre_zona,
@@ -82,7 +82,7 @@ document.addEventListener("turbolinks:load", function() {
 				   dataType: "json",
 				   success: function(data) {
 
-				      console.log(data);
+				       window.location="/zones"
 				     }
 				   });
    });
