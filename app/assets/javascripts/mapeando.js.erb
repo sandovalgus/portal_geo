@@ -1,5 +1,4 @@
-
-  //var map = new google.maps.Map(document.getElementById('map'));
+//var map = new google.maps.Map(document.getElementById('map'));
   var area = [];
   var markersCount = 0;
   markers = [];
@@ -8,6 +7,7 @@
   var handler = Gmaps.build('Google');
   var zoom = 13;// zoom del mapa 
   var areas = [];
+  var ctrlNewZone =0;
 
 //position central del mapa
 function positionCenter(pos, items){
@@ -23,7 +23,7 @@ function positionCenter(pos, items){
   return latlng;
 }
 
-
+  
 function createMap(items, vista){
   // var handler = Gmaps.build('Google');
 
@@ -34,9 +34,11 @@ function createMap(items, vista){
     handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
     handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
+// $('button:submit').attr("disabled", true);
+
 
       google.maps.event.addListener(handler.getMap(), 'click', function( event ){
-       console.log("toc toc");
+        console.log("adListener");
 
             if (dibujado ==  false) {
               area.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
@@ -65,48 +67,95 @@ function createMap(items, vista){
 
 
 
-document.addEventListener("turbolinks:load", function() {
 
-    $("#go").click(function(){
-			   // alert("The button was clicked.");
+
+
+
+
+
+
+
+
+
+
+
+//***********************************************
+//*********************ZONAS*********************
+//***********************************************
+
+
+
+document.addEventListener("turbolinks:load", function() {
+//*****************************************************
+//editar zona
+//*****************************************************
+    $("#guardarEdicionZona").click(function(){
+         // alert("The button was clicked.");
          var nombre_zona = document.getElementById('zone_nombre_zona').value;
-			   var color = document.getElementById('zone_color').value;
-         
+         var color = document.getElementById('zone_color').value;
+         var id = document.getElementById('id').value;
+
+         console.log("id de la zona "+id);
          $.ajax({
-				   url: "/zones/",
-				   type: "POST",
-				   data: {
+           url: "/zones/"+id,
+           type: "PUT",
+           data: {  
+           
             "nombre_zona":nombre_zona,
             "color":color,
             "area": area},
-				   dataType: "json",
-				   success: function(data) {
+           dataType: "json",
+           success: function(data) {
 
-				       window.location="/zones"
-				     }
-				   });
+               window.location="/zones"
+             }
+           });
+   });
+//*************************************************************************
+//guardar zona
+//************************************************************************
+    $("#guardarDatosZona").click(function(){
+         // alert("The button was clicked.");
+         var nombre_zona = document.getElementById('zone_nombre_zona').value;
+         var color = document.getElementById('zone_color').value;
+         
+         $.ajax({
+           url: "/zones/",
+           type: "POST",
+           data: {
+            "nombre_zona":nombre_zona,
+            "color":color,
+            "area": area},
+           dataType: "json",
+           success: function(data) {
+
+               window.location="/zones"
+             }
+           });
    });
 
 
   $("#btnmarcar").click(function(){
-    
-    if (markersCount > 0 && dibujado == false) {
+     var zoneColor =  $("#zone_color").val();
+   
+
+    if (markersCount >=3 && dibujado == false) {
       
       poligonoArea = handler.addPolygons({
-      // poligonoArea = new google.maps.Polygon({
         paths: area,
-        strokeColor: '#FF0000',
+        strokeColor: '#ff4c4c',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: '#FF0000',
+        fillColor: '#ff4c4c',
         fillOpacity: 0.35
       });
 
-      if (area.lentgh < 1 || (markersCount > 2 && dibujado == false)) {
-        //poligonoArea.setMap(map);
+        console.log(poligonoArea);
         handler.bounds.extendWith(poligonoArea);
         dibujado = true;
-      }
+         $('#guardarDatosZona').attr("disabled", false);
+        $('#guardarEdicionZona').attr("disabled", false);
+    
     }
 
   });
@@ -117,12 +166,13 @@ document.addEventListener("turbolinks:load", function() {
 
 // mapeando zonas
 
-function createMapZone(items, vista){           
-  
+function createMapZone(){       
+
+  dibujado =  false;
   handler.buildMap({ provider: {}, internal: {id: 'map_zone'}}, function(){
-    markers = handler.addMarkers(items);
-    handler.bounds.extendWith(markers);
-    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+    //markers = handler.addMarkers(items);
+   // handler.bounds.extendWith(markers);
+    handler.getMap().setCenter(positionCenter(1, 0));// centra el mapa en lng lat
     handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
       google.maps.event.addListener(handler.getMap(), 'click', function( event ){
@@ -145,6 +195,9 @@ function createMapZone(items, vista){
               );
               markers[markersCount] = newmarker;
               markersCount += 1;
+
+              console.log("sumando markers "+markersCount);
+              if (markersCount >=3){$('#btnmarcar').attr("disabled", false);}
             } else {
               alert("Ups! Ya se encuentra creada la zona. Eliminela para volver a dibujar.");
             }
@@ -152,6 +205,8 @@ function createMapZone(items, vista){
 
   });
 }
+
+
 
 
 //mostrar tdas las zonas ************
@@ -205,6 +260,21 @@ if(j==items.length){
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //***************************************************************
 //zone and markers
         function mapsMarkerZones(items,has_zone, vista){
@@ -217,11 +287,6 @@ if(j==items.length){
         handler.getMap().setZoom(zoom);// zoom map x veces
         //handler.fitMapToBounds();
 
-// for (var j = 0; j < items.length; j++){
-//   var info = items[j].infowindow;
-//   info = info.split("/", 1);
-//   console.log( parseInt(info));
-// }
 
         var areashow = [];
         var mizona = has_zone[0].zone;
@@ -292,7 +357,3 @@ if(j==items.length){
 
         });
         }
-
-
-
-

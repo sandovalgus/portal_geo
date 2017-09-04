@@ -60,6 +60,7 @@ class ZonesController < ApplicationController
 
         format.html { redirect_to @zone, notice: 'Zone was successfully created.' }
         format.js 
+        # format.js { render js: "window.location.href=#{ directories_path }" }
         format.json { render :show, status: :created, location: @zone }
          
       else
@@ -73,9 +74,18 @@ class ZonesController < ApplicationController
   # PATCH/PUT /zones/1
   # PATCH/PUT /zones/1.json
   def update
+
+    # @zone = Zone.find(params[:id])
+    # @zone.nombre_zona = params["nombre_zona"]
+    @coordenada = CoordinateZone.where('zone_id = ?', @zone.id)
+    @coordenada.each do |cz|
+      cz.destroy
+    end
+
     respond_to do |format|
-      if @zone.update(zone_params)
+      if @zone.update #(zone_params)
         format.html { redirect_to @zone, notice: 'Zone was successfully updated.' }
+        format.js 
         format.json { render :show, status: :ok, location: @zone }
       else
         format.html { render :edit }
@@ -89,7 +99,7 @@ class ZonesController < ApplicationController
   def destroy
     @zone.destroy
     respond_to do |format|
-      format.html { redirect_to action: "index", notice: 'Zone was successfully destroyed.' }
+      format.html { redirect_to action: "index" }
       format.json { head :no_content }
       #testing
     end
@@ -103,6 +113,6 @@ class ZonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def zone_params
-      params.require(:zone).permit(:nombre_zona, :color)
+      # params.require(:zone) #.permit( :zone, :nombre_zona, :color)
     end
 end

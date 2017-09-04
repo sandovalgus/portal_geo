@@ -297,3 +297,22 @@ padding: 5px;
   background: #ff6c5f;
   color: white;
 }
+
+
+select option {
+    margin: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+select option[value="0099e5"] { /* value not val */
+    background: #0099e5;
+}
+
+select option[value="ff4c4c"] { /* value not val */
+    background: #ff4c4c;
+}
+
+select option[value="34bf49"] { /* value not val */
+    background: #34bf49;
+}

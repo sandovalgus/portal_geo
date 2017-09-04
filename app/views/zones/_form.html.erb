@@ -1,41 +1,30 @@
   <div class="banner"> 
-
     <div class="row">
       <div class="col-md-3 col-sm-3 col-xs-3">
           <%= form_with(model: zone, local: true) do |form| %>
-          <% if zone.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(zone.errors.count, "error") %> prohibited this zone from being saved:</h2>
 
-              <ul>
-              <% zone.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
 
           <div class="field">
             <%= form.label :nombre_zona,class: "control-label" %>
             <%= form.text_field :nombre_zona, id: :zone_nombre_zona, class: "form-control" %>
           </div>
           <br>
-          <div class="field">
-            <%= form.label :color, class: "control-label" %>
-            <%= form.text_field :color, id: :zone_color, class: "form-control" %>
+          <div class="form-group">
+            <label for="sel1">Color de la zona:</label>
+            <select class="form-control" id="zone_color">
+              <option value="0099e5">1</option>
+              <option value="ff4c4c">2</option>
+              <option value="34bf49">3</option>
+            </select>
           </div>
           <br />
-          <div class="actions">
-            <%= form.submit "Submit", class: "btn btn-default btn-primary" %>
-          </div>
+
       </div>
         <div class="col-md-9 col-sm-9 col-xs-9">
             <div class="map-system">
                 <div id="map_zone" class="map"></div>
             </div> 
 
-          <button id="go" class="btn btn-default pull-right">mandar datos poligono</button>
-          <button id="btnmarcar" class="btn btn-default pull-right">Marcar zona</button>
         </div>
     </div>
 
@@ -46,6 +35,4 @@
 
 
 
-<script type="text/javascript">
-  createMapZone(<%=raw @map_hash.to_json %>, 1);
-</script>
+

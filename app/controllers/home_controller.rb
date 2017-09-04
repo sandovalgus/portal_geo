@@ -9,7 +9,6 @@ before_action :authenticate_user!
       marker.lat address.latitude
       marker.lng address.longitude
 
-
       string = string + "Geo: " + address.latitude.to_s + ", " + address.longitude.to_s
       marker.infowindow [address.address, string].join('<br />')
 
