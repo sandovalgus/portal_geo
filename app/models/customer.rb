@@ -10,13 +10,18 @@ class Customer < ApplicationRecord
 
 		CSV.foreach(file.path, headers: false) do | row |
 			#puts row[0].inspect + "	" + row[1].inspect + "	" + row[2].inspect + "	" + row[3].inspect + "	" + row[4].inspect
-			c = Customer.new
-			a = Address.new
-			c.n_socio = row[0]
+			c = Customer.new(:n_socio => row[0])
+			# c.addresses.build
+			# a = Address.new
+			# c.n_socio = row[0]
 			c.estado = row[4]
-			a.address = row[1].to_str + ". " + row[2].to_str + ", " + row[3].to_str
-			a.customer = c.id
-			puts a.inspect
+			puts row[1].inspect 
+			direccion = row[1] , row[2] , row[3]
+			c.addresses.build(:address => direccion)
+			# c.addresses = row[1].to_str + ". " + row[2].to_str + ", " + row[3].to_str
+			# a.customer = c.id
+			c.save
+			# puts a.inspect
 			
 		end
 
