@@ -14,8 +14,8 @@ class ZonesController < ApplicationController
          schoolpoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
       end
     end
-    puts "********schoolpoints***********"
-    puts schoolpoints.inspect
+   # puts "********schoolpoints***********"
+   # puts schoolpoints.inspect
 
     @polyjson = schoolpoints
     @polyjson = @polyjson.to_json
