@@ -38,8 +38,12 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 gem 'jquery-rails'
-#17/08/2017 bby sandovalgus
+#17/08/2017 by sandovalgus
 gem 'railroady'
+gem 'bootstrap-sass', '~> 3.3.6'
+#20/08/2017  by sandovalgus
+gem 'font-awesome-sass', '~> 4.7.0'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

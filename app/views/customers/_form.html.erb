@@ -1,3 +1,5 @@
+  <div class="banner">
+
 <%= form_with(model: customer, local: true) do |form| %>
   <% if customer.errors.any? %>
     <div id="error_explanation">
@@ -11,37 +13,63 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :n_socio %>
-    <%= form.text_field :n_socio, id: :customer_n_socio %>
+
+<div class="row">
+  <div class="col-md-4 col-xs-12">
+      <div class="form-group">
+            <%= form.label :n_socio, "Numero de socio:" %>
+            <%= form.text_field :n_socio,autofocus: true,:required => true, :class=>"form-control input-sm" %>  
+      </div>
   </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-xs-12">
+    <div class="form-group">
 
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre, id: :customer_nombre %>
+    <%= form.label :nombre, "Nombre:" %>
+            <%= form.text_field :nombre,autofocus: true,:required => true, :class=>"form-control input-sm" %>  
+    </div>
+
   </div>
+    <div class="col-md-6 col-xs-12">
+    <div class="form-group">
+      <%= form.label :apellido, "Apellido:" %>
+                <%= form.text_field :apellido,autofocus: true,:required => true, :class=>"form-control input-sm" %>  
+          </div>    
+    </div>
+</div>
 
-  <div class="field">
-    <%= form.label :apellido %>
-    <%= form.text_field :apellido, id: :customer_apellido %>
+<div class="row">
+  <div class="col-md-12 col-xs-12">
+    <div class="form-group">
+          <%= form.fields_for :addresses do |ubicacion|%>
+              <%=ubicacion.label :address, "Direccion:"%><br/>
+              <%= ubicacion.text_area :address, class: "form-control input-sm" ,rows: 2%>
+          <%end%>
+    </div>
   </div>
+</div>
 
-<h2>Direccion</h2>
-<%= form.fields_for :addresses do |ubicacion|%>
-<%=ubicacion.label :address%><br/>
-<%=ubicacion.text_field :address%>
 
-<%=ubicacion.label :latitude%><br/>
-<%=ubicacion.text_field :latitude%><br/>
 
-<%=ubicacion.label :longitude%><br/  >
-<%=ubicacion.text_field :longitude%>
-
-<%end%>
 
 
 
   <div class="actions">
-    <%= form.submit %>
+           <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+        <i class="fa fa-floppy-o " aria-hidden="true"></i>
+         Guardar
+        <% end %>
+
+
   </div>
 <% end %>
+
+</div>
+
+
+
+
+
+
+
