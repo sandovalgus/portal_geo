@@ -16,7 +16,7 @@ class ZonesController < ApplicationController
     end
    # puts "********schoolpoints***********"
    # puts schoolpoints.inspect
-
+ 
     @polyjson = schoolpoints
     @polyjson = @polyjson.to_json
   end
@@ -33,6 +33,18 @@ class ZonesController < ApplicationController
 
   # GET /zones/1/edit
   def edit
+      @polyjson = []
+      zonepoints = []
+      # @zones.each do |zone|
+        CoordinateZone.where(:zone_id => params[:id]).each do |point|
+           zonepoints << { :zone => point.zone_id,  :lng => point.longitud, :lat => point.latitud}
+        # end
+      end
+     # puts "********schoolpoints***********"
+     # puts schoolpoints.inspect
+   
+      @polyjson = zonepoints
+      @polyjson = @polyjson.to_json
   end
 
   # POST /zones
@@ -75,15 +87,16 @@ class ZonesController < ApplicationController
   # PATCH/PUT /zones/1.json
   def update
 
-    # @zone = Zone.find(params[:id])
-    # @zone.nombre_zona = params["nombre_zona"]
-    @coordenada = CoordinateZone.where('zone_id = ?', @zone.id)
-    @coordenada.each do |cz|
-      cz.destroy
-    end
+     @zone = Zone.find(params[:id])
+     @zone.nombre_zona = params["nombre_zona"]
+
+    # @coordenada = CoordinateZone.where('zone_id = ?', @zone.id)
+    # @coordenada.each do |cz|
+    #   cz.destroy
+    # end
 
     respond_to do |format|
-      if @zone.update #(zone_params)
+     if @zone.update(zone_params)
         format.html { redirect_to @zone, notice: 'Zone was successfully updated.' }
         format.js 
         format.json { render :show, status: :ok, location: @zone }
@@ -113,6 +126,6 @@ class ZonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def zone_params
-      # params.require(:zone) #.permit( :zone, :nombre_zona, :color)
+       params.permit(:zone, :nombre_zona, :color)
     end
 end

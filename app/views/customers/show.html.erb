@@ -33,7 +33,16 @@
 				</div>
 				<div class="form-group">
 					<strong>Estado:</strong>
-					<%= @customer.estado %>
+		<% if @customer.estado ==1%>
+          <i class="fa fa-circle status_1" aria-hidden="true"></i>
+        <%end%>
+        <% if @customer.estado ==2%>
+          <i class="fa fa-circle status_2" aria-hidden="true"></i>
+        <%end%>
+        <% if @customer.estado ==3%>
+          <i class="fa fa-circle status_3" aria-hidden="true"></i>
+        <%end%>
+					
 				</div>
 			</div>
 			

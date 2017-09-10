@@ -316,3 +316,17 @@ select option[value="ff4c4c"] { /* value not val */
 select option[value="34bf49"] { /* value not val */
     background: #34bf49;
 }
+
+
+.status_1{
+ /*background: #27AE60;*/
+  color: #27AE60;
+}
+.status_2{
+  /*background: #E74C3C;*/
+  color: #E74C3C;
+}
+.status_3{
+  /*background: #F1C40F;*/
+  color: #F1C40F; 
+}
