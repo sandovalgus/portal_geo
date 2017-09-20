@@ -36,8 +36,14 @@ class CustomersController < ApplicationController
   end
 
   # GET /customers/1/edit
-  def edit
-    # @customer.addresses.build
+  def edit  
+      @customers= Customer.includes(:addresses).find(params[:id])
+      @addres = Address.where(customer_id: @customers.id).first
+      @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
+        marker.lat address.latitude
+        marker.lng address.longitude
+        marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+    end
   end
 
   # POST /customers

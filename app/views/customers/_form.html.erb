@@ -1,5 +1,6 @@
-  <div class="banner">
-
+<div class="banner">
+<%puts "******editando customer****"%>
+<%puts params.inspect%>
 <%= form_with(model: customer, local: true) do |form| %>
   <% if customer.errors.any? %>
     <div id="error_explanation">
@@ -45,15 +46,21 @@
           <%= form.fields_for :addresses do |ubicacion|%>
               <%=ubicacion.label :address, "Direccion:"%><br/>
               <%= ubicacion.text_area :address, class: "form-control input-sm" ,rows: 2%>
+               <%= ubicacion.hidden_field :latitude%>
+                <%= ubicacion.hidden_field :longitude%>
           <%end%>
     </div>
   </div>
 </div>
 
+<% if params[:action] == 'edit'%>
 
-
-
-
+      <div class="col-md-12 col-xs-12">
+        <!-- <div class="map_mini"> -->
+          <div id="map" class="map"></div>
+        <!-- </div> -->
+      </div>
+<%end%>
 
   <div class="actions">
            <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
@@ -61,11 +68,14 @@
          Guardar
         <% end %>
 
-
   </div>
 <% end %>
 
 </div>
+
+<script type="text/javascript">
+editCustomerMap(<%=raw @map_hash.to_json %>, 2);
+</script>
 
 
 

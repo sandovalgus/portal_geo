@@ -23,7 +23,50 @@ function positionCenter(pos, items){
   return latlng;
 }
 
-  
+ // CARGA EL MAPA CON UN SOLO ITEM, ES POSIBLE ARRASTRAR DICHO ITEM, Y MUESTRA LNG Y LAT
+
+function editCustomerMap(items, vista){
+  handler.buildMap({ provider: {gestureHandling: 'greedy'}, internal: {id: 'map'}}, function(){
+    //markers = handler.addMarkers(items);
+    markers = handler.addMarkers(
+      [
+        {
+          "lng": items[0].lng,
+          "lat": items[0].lat,
+        }
+      ]
+    ,{ draggable: true}
+    );
+
+     handler.bounds.extendWith(markers);
+     handler.fitMapToBounds();
+    handler.getMap().setCenter(positionCenter(vista, items));// centra el mapa en lng lat
+    handler.getMap().setZoom(zoom);// zoom map x veces
+     google.maps.event.addListener(markers[0].serviceObject, 'dragend', function() {
+      updateFormLocation(this.getPosition());
+    
+     });
+
+  });
+}
+//Update form attributes with given coordinates
+function updateFormLocation(latLng) {
+   // var latitude = document.getElementById("customer_addresses_attributes_0_latitude");
+   // var longitude = document.getElementById("customer_addresses_attributes_0_longitude");
+    // document.getElementById("customer_addresses_attributes_0_latitude").value() = latLng.lat();
+    // document.getElementById("customer_addresses_attributes_0_longitude").value() = latLng.lng();
+   $('#customer_addresses_attributes_0_latitude').val(latLng.lat());//=latLng.lat();
+   $('#customer_addresses_attributes_0_longitude').val(latLng.lng());//=latLng.lng();
+
+   // latitude.innerHTML=(latLng.lat());
+   // longitude.innerHTML=(latLng.lng());
+
+} 
+
+
+
+
+
 function createMap(items, vista){
   // var handler = Gmaps.build('Google');
 
