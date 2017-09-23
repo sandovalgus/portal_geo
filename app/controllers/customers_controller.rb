@@ -9,9 +9,11 @@ class CustomersController < ApplicationController
     @addres = Address.all
 
     @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
+      customer = Customer.select(:nombre, :apellido, :n_socio, :estado).where(:id => address.customer_id).last
       marker.lat address.latitude
       marker.lng address.longitude
-      marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+      marker.infowindow render_to_string(:partial => "info", :locals =>{:address => address, :customer => customer})
+    
     end
   end
 
@@ -24,7 +26,10 @@ class CustomersController < ApplicationController
       @map_hash = Gmaps4rails.build_markers(@addres) do |address, marker|
       marker.lat address.latitude
       marker.lng address.longitude
-      marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+      # marker.infowindow [address.address,"</br>", address.latitude,address.latitude].join('-')
+
+      marker.infowindow render_to_string(:partial => "info", :locals =>{:address => @addres, :customer => @customers})
+    
     end
 
   end
