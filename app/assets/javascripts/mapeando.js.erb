@@ -242,7 +242,11 @@ function createMapZone(items){
     handler.getMap().setCenter(positionCenter(1, 0));// centra el mapa en lng lat
     handler.getMap().setZoom(zoom);// zoom map x veces
     //handler.fitMapToBounds();
-    drawZone(items);
+
+    if (items != null){
+      drawZone(items);
+    }
+     
 
       google.maps.event.addListener(handler.getMap(), 'click', function( event ){
        console.log("toc toc");

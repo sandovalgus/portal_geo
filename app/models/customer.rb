@@ -19,13 +19,19 @@ class Customer < ApplicationRecord
 			else
 			c = Customer.new(:n_socio => row[0])
 			c.estado = row[4]
-			direccion = row[1].to_s , row[2].to_s ,  row[3].to_s
-		
+			
+			aa = String(row[1])
+			bb =String(row[2])
+			cc = String(row[3])
+			concatenado = aa +" - "+ bb +" - "+ cc
+			direccion = concatenado
+			 # direccion =  row[1].to_s , row[2].to_s ,  row[3].to_s 
 			c.addresses.build(:address => direccion)
 			end
 
 			c.save
 			# puts a.inspect
+		
 			
 		end
 
